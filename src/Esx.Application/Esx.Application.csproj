@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Esx.Domain\Esx.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
