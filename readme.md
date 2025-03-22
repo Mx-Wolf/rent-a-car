@@ -108,4 +108,46 @@ The aggregate roots in the **Car Rental Service** domain based on the scenarios 
 - **Reservation triggers changes**: For example, confirming a reservation triggers updates in the `Car` aggregate (availability) and potentially the `Payment` aggregate (transaction completion).
 - **Event-driven coordination**: Use domain events to signal updates across aggregates, e.g., a `ReservationConfirmed` event can notify the `Car` aggregate to mark itself as reserved.
 
-This structure provides a clear scope for each aggregate root while maintaining rich domain logic. Shall we dive deeper into one of these aggregates and its design? Let me know!
+## Primitive vs Typed Id's
+
+When comparing `CarId` (a struct) versus an `int` as the type for the `Id` property in the `Car` class, the location of the value in memory depends on the nature of the class and its usage. Here's a breakdown:
+
+---
+
+### 1. **Memory Layout for `class Car`**
+   - A `class` in C# is a **reference type**. Instances of `Car` are stored on the **heap**, and its properties are stored alongside the object on the heap.
+
+---
+
+### 2. **`public int Id { get; private set; }`**
+   - **Memory Behavior**: 
+     - `Id` is a primitive value type (`int`), so its 32-bit value is stored directly as part of the `Car` object on the heap.  
+     - For example, if `Car` has other properties, all primitive value types (like `int`, `bool`, etc.) are stored inline within the same memory block as the `Car` object.
+
+---
+
+### 3. **`public CarId Id { get; private set; }`**
+   - **Memory Behavior**:
+     - `CarId` is a **struct**, which is also a value type. However, its memory footprint includes the `int` field (`Value`) and potentially additional metadata, as it's a custom type.
+     - Like the `int`, the entire `CarId` struct will be stored inline within the `Car` object on the heap.
+
+---
+
+### Comparison Summary:
+Structs like `CarId` are still **value types**, so their memory layout is similar to primitive value types like `int`. When embedded in a reference type (`Car`), both the `int` and the `CarId` fields are stored **inline on the heap with the containing object**.
+
+---
+
+### Memory Usage Differences:
+1. **`int`**:  
+   - Occupies 4 bytes (32 bits) for its raw value.
+
+2. **`CarId` (Struct)**:  
+   - At minimum, it will occupy 4 bytes for the `int` field plus potential extra memory for struct metadata (e.g., padding for alignment).  
+   - If `CarId` includes additional logic or fields, its memory footprint will increase accordingly.
+
+---
+
+### Key Insights:
+- If you need **type safety and domain clarity**, a lightweight struct like `CarId` provides significant benefits, with minimal overhead in memory.
+- If you prioritize **raw performance and simplicity**, sticking to `int` might be more efficient, particularly in performance-critical scenarios with high memory constraints.
