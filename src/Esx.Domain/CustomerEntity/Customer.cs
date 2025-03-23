@@ -13,7 +13,7 @@ public class Customer : EntityBase<CustomerId>
         DriverLicense = driverLicense;
         PaymentInfo = paymentInfo;
     }
-    public Customer():base(CustomerId.Empty)
+    public Customer() : base(CustomerId.Empty)
     {
         Name = PersonName.Empty;
         DriverLicense = DriverLicenseNull;

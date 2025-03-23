@@ -1,6 +1,6 @@
 ﻿namespace Esx.Domain;
 
-public interface IEntityRepository<TEntity, TEntityId> 
+public interface IEntityRepository<TEntity, TEntityId>
     where TEntity : EntityBase<TEntityId>
     where TEntityId : struct, IEquatable<TEntityId>, IComparable<TEntityId>, IEqualityOperators<TEntityId, TEntityId, bool>, IComparisonOperators<TEntityId, TEntityId, bool>
 {

@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace Esx.Domain;
+﻿namespace Esx.Domain;
 public abstract class EntityBase<TEntityId> where TEntityId
     : struct,
     IEquatable<TEntityId>,

@@ -19,5 +19,5 @@ public class Reservation : EntityBase<ReservationId>
         DateStart = dateStart;
         DateEnd = dateEnd;
     }
-    
+
 }

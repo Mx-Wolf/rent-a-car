@@ -5,7 +5,7 @@ using Esx.Domain.ReservationEntity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Esx.Integration.CarRenal;
+namespace Esx.Integration.TypeConfiguration;
 
 public class ReservationTypeConfiguration : IEntityTypeConfiguration<Reservation>
 {

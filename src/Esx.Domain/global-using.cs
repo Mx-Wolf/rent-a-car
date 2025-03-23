@@ -1,2 +1,3 @@
-﻿global using StronglyTypedIds;
-global using System.Numerics; 
+﻿global using System.Numerics;
+
+global using StronglyTypedIds;

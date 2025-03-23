@@ -1,7 +1,5 @@
 ﻿using System.Reflection;
 
-using StronglyTypedIds;
-
 [assembly: StronglyTypedIdDefaults(Template.Int)]
 
 namespace Esx.Domain;

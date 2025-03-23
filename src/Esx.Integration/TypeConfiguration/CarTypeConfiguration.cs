@@ -3,12 +3,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Esx.Integration.CarRenal;
+namespace Esx.Integration.TypeConfiguration;
 public class CarTypeConfiguration : IEntityTypeConfiguration<Car>
 {
     public void Configure(EntityTypeBuilder<Car> builder)
     {
-        builder.HasKey(e=>e.Id);
+        builder.HasKey(e => e.Id);
 
         builder.Property(e => e.Id)
             .HasConversion(
