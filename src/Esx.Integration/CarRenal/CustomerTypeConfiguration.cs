@@ -1,5 +1,4 @@
 ﻿using Esx.Domain.CustomerEntity;
-using Esx.Domain.ReservationEntity;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -10,11 +9,22 @@ public class CustomerTypeConfiguration : IEntityTypeConfiguration<Customer>
 {
     public void Configure(EntityTypeBuilder<Customer> builder)
     {
+        builder.HasKey(e=>e.Id);
+
         builder.Property(e => e.Id)
             .HasConversion(
                 id => id.Value,
                 value => new CustomerId(value))
-            .IsRequired();
+            .IsRequired()
+            .ValueGeneratedOnAdd();
+
+        builder.OwnsOne(e => e.Name, nb =>
+        {
+            nb.Property(p => p.FirstName).HasColumnName("FirstName");
+            nb.Property(p => p.LastName).HasColumnName("LastName");
+        });
+
+        builder.Property(e => e.DriverLicense).IsRequired();
 
         builder.OwnsOne(e => e.PaymentInfo,
             pib =>
@@ -23,10 +33,6 @@ public class CustomerTypeConfiguration : IEntityTypeConfiguration<Customer>
                 pib.Property(p => p.Verified).HasColumnName("PaymentVerified");
 
             });
-        builder
-            .HasMany<Reservation>("Reservations")
-            .WithOne("Customer")
-            .HasForeignKey(e => e.CustomerId)
-            .IsRequired();
+
     }
 }

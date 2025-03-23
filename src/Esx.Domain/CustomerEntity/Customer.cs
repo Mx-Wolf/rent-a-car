@@ -7,10 +7,16 @@ public class Customer : EntityBase<CustomerId>
     public string DriverLicense { get; private set; }
     public PaymentInfo PaymentInfo { get; private set; }
 
-    public Customer(PersonName name, string driverLicense, PaymentInfo paymentInfo) : base(CustomerId.Empty)
+    public Customer(PersonName name, string driverLicense, PaymentInfo paymentInfo, CustomerId id = default) : base(id)
     {
         Name = name;
         DriverLicense = driverLicense;
         PaymentInfo = paymentInfo;
+    }
+    public Customer():base(CustomerId.Empty)
+    {
+        Name = PersonName.Empty;
+        DriverLicense = DriverLicenseNull;
+        PaymentInfo = PaymentInfo.Null;
     }
 }

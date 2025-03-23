@@ -31,7 +31,7 @@ public class ReservationRequestHandler : IReservationRequestHandler
 
         var reservation = new Reservation(
             request.CarId,
-            customer.Id,
+            customer,
             request.DateStart,
             request.DateEnd);
         reservations.Add(reservation);
