@@ -31,9 +31,10 @@ public class ReservationRequestHandler : IReservationRequestHandler
 
         var reservation = new Reservation(
             request.CarId,
-            customer,
+            customer.Id,
             request.DateStart,
-            request.DateEnd);
+            request.DateEnd
+            );
         reservations.Add(reservation);
 
         await unitOfWork.SaveChangesAsync();

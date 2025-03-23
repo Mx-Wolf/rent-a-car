@@ -27,7 +27,7 @@ public class ReservationTypeConfiguration : IEntityTypeConfiguration<Reservation
                 value => new CarId(value)
             );
 
-        builder.HasOne(e => e.Customer)
+        builder.HasOne<Customer>()
             .WithMany()
             .HasForeignKey(e => e.CustomerId)
             .IsRequired()
