@@ -1,7 +1,13 @@
-﻿namespace Esx.Domain;
+﻿using System.Numerics;
 
-public abstract class EntityBase<TEntityIdBase> where TEntityIdBase : struct
+namespace Esx.Domain;
+public abstract class EntityBase<TEntityId> where TEntityId
+    : struct,
+    IEquatable<TEntityId>,
+    IComparable<TEntityId>,
+    IComparisonOperators<TEntityId, TEntityId, bool>,
+    IEqualityOperators<TEntityId, TEntityId, bool>
 {
-    public TEntityIdBase Id { get; private set; }
-    protected EntityBase() { }
+    public TEntityId Id { get; private set; }
+    protected EntityBase(TEntityId id) { Id = id; }
 }

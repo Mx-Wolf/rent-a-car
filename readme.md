@@ -151,3 +151,14 @@ Structs like `CarId` are still **value types**, so their memory layout is simila
 ### Key Insights:
 - If you need **type safety and domain clarity**, a lightweight struct like `CarId` provides significant benefits, with minimal overhead in memory.
 - If you prioritize **raw performance and simplicity**, sticking to `int` might be more efficient, particularly in performance-critical scenarios with high memory constraints.
+
+
+## Good will
+
+```C#
+protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+{
+    optionsBuilder.ConfigureWarnings(warning => 
+            warning.Throw(RelationalEventId.QueryClientEvaluationWarning));
+}
+```

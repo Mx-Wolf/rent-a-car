@@ -27,14 +27,14 @@ public class ReservationRequestHandler : IReservationRequestHandler
             Customer.DriverLicenseNull,
             PaymentInfo.Null
             );
-        customers.Add( customer );
+        customers.Add(customer);
 
         var reservation = new Reservation(
-            request.CarId, 
-            customer.Id, 
-            request.DateStart, 
+            request.CarId,
+            customer.Id,
+            request.DateStart,
             request.DateEnd);
-        reservations.Add( reservation );
+        reservations.Add(reservation);
 
         await unitOfWork.SaveChangesAsync();
     }

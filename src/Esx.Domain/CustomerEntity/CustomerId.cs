@@ -1,3 +1,10 @@
-﻿namespace Esx.Domain.CustomerEntity;
+﻿using System.Numerics;
 
-public record struct CustomerId(int Value);
+namespace Esx.Domain.CustomerEntity;
+
+[StronglyTypedId]
+public readonly partial struct CustomerId: 
+    IEntityKey, 
+    IComparisonOperators<CustomerId, CustomerId, bool>,
+    IEqualityOperators<CustomerId, CustomerId, bool>
+{ } 

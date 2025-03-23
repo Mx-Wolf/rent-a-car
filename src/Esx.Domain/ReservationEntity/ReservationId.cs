@@ -1,3 +1,8 @@
 ﻿namespace Esx.Domain.ReservationEntity;
 
-public record struct ReservationId(int Value);
+[StronglyTypedId]
+public readonly partial struct ReservationId :
+    IEntityKey,
+    IEqualityOperators<ReservationId, ReservationId, bool>,
+    IComparisonOperators<ReservationId, ReservationId, bool>
+{ }

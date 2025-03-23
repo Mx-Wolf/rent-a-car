@@ -1,3 +1,3 @@
 ﻿namespace Esx.Domain.CustomerEntity;
 
-public record PersonName (string FirstName, string LastName);
+public record PersonName(string FirstName, string LastName);

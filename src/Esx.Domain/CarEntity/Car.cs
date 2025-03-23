@@ -5,4 +5,8 @@ public class Car : EntityBase<CarId>
     public required string LicensePlate { get; init; }
     public decimal Pice { get; private set; }
     public CarStatus Status { get; private set; }
+    public Car() : base(CarId.Empty)
+    {
+
+    }
 }

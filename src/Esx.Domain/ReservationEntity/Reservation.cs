@@ -12,7 +12,7 @@ public class Reservation : EntityBase<ReservationId>
     public required CustomerId CustomerId { get; init; }
 
     [SetsRequiredMembers]
-    public Reservation(CarId carId, CustomerId customerId, DateTime dateStart, DateTime dateEnd)
+    public Reservation(CarId carId, CustomerId customerId, DateTime dateStart, DateTime dateEnd) : base(ReservationId.Empty)
     {
         CarId = carId;
         CustomerId = customerId;
