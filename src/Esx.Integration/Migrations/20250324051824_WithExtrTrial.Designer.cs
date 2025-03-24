@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Esx.Integration.Migrations
 {
     [DbContext(typeof(CarRentalDbContext))]
-    [Migration("20250324042837_WithExtrTrial")]
+    [Migration("20250324051824_WithExtrTrial")]
     partial class WithExtrTrial
     {
         /// <inheritdoc />
@@ -25,6 +25,19 @@ namespace Esx.Integration.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Esx.Domain.AuditTrailEntity.AuditTrail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AuditTrail", (string)null);
+                });
+
             modelBuilder.Entity("Esx.Domain.AuditTrailEntity.AuditTrail<Esx.Domain.AuditTrailEntity.DocumentExtra>", b =>
                 {
                     b.Property<int>("Id")
@@ -36,19 +49,6 @@ namespace Esx.Integration.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DocumentAuditTrail", (string)null);
-                });
-
-            modelBuilder.Entity("Esx.Domain.AuditTrailEntity.AuditTrial", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AuditTrail", (string)null);
                 });
 
             modelBuilder.Entity("Esx.Domain.CarEntity.Car", b =>
@@ -121,6 +121,73 @@ namespace Esx.Integration.Migrations
                     b.HasIndex("CustomerId");
 
                     b.ToTable("Reservation");
+                });
+
+            modelBuilder.Entity("Esx.Domain.AuditTrailEntity.AuditTrail", b =>
+                {
+                    b.OwnsOne("Esx.Domain.AuditTrailEntity.AuditRecord", "Record", b1 =>
+                        {
+                            b1.Property<int>("AuditTrailId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Category")
+                                .IsRequired()
+                                .HasMaxLength(128)
+                                .HasColumnType("nvarchar(128)");
+
+                            b1.Property<string>("Changes")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<DateTime>("DateCompleted")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<int>("ObjectId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("ObjectName")
+                                .IsRequired()
+                                .HasMaxLength(2147483647)
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("AuditTrailId");
+
+                            b1.ToTable("AuditTrail");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AuditTrailId");
+
+                            b1.OwnsOne("Esx.Domain.AuditTrailEntity.UserInfo", "CompletedBy", b2 =>
+                                {
+                                    b2.Property<int>("AuditRecordAuditTrailId")
+                                        .HasColumnType("int");
+
+                                    b2.Property<string>("Email")
+                                        .IsRequired()
+                                        .HasMaxLength(256)
+                                        .HasColumnType("nvarchar(256)")
+                                        .HasColumnName("CompletedByEmail");
+
+                                    b2.Property<string>("UserName")
+                                        .IsRequired()
+                                        .HasMaxLength(256)
+                                        .HasColumnType("nvarchar(256)")
+                                        .HasColumnName("CompletedByUserName");
+
+                                    b2.HasKey("AuditRecordAuditTrailId");
+
+                                    b2.ToTable("AuditTrail");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("AuditRecordAuditTrailId");
+                                });
+
+                            b1.Navigation("CompletedBy")
+                                .IsRequired();
+                        });
+
+                    b.Navigation("Record")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Esx.Domain.AuditTrailEntity.AuditTrail<Esx.Domain.AuditTrailEntity.DocumentExtra>", b =>
@@ -205,73 +272,6 @@ namespace Esx.Integration.Migrations
 
                     b.Navigation("Extra")
                         .IsRequired();
-
-                    b.Navigation("Record")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Esx.Domain.AuditTrailEntity.AuditTrial", b =>
-                {
-                    b.OwnsOne("Esx.Domain.AuditTrailEntity.AuditRecord", "Record", b1 =>
-                        {
-                            b1.Property<int>("AuditTrialId")
-                                .HasColumnType("int");
-
-                            b1.Property<string>("Category")
-                                .IsRequired()
-                                .HasMaxLength(128)
-                                .HasColumnType("nvarchar(128)");
-
-                            b1.Property<string>("Changes")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<DateTime>("DateCompleted")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<int>("ObjectId")
-                                .HasColumnType("int");
-
-                            b1.Property<string>("ObjectName")
-                                .IsRequired()
-                                .HasMaxLength(2147483647)
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("AuditTrialId");
-
-                            b1.ToTable("AuditTrail");
-
-                            b1.WithOwner()
-                                .HasForeignKey("AuditTrialId");
-
-                            b1.OwnsOne("Esx.Domain.AuditTrailEntity.UserInfo", "CompletedBy", b2 =>
-                                {
-                                    b2.Property<int>("AuditRecordAuditTrialId")
-                                        .HasColumnType("int");
-
-                                    b2.Property<string>("Email")
-                                        .IsRequired()
-                                        .HasMaxLength(256)
-                                        .HasColumnType("nvarchar(256)")
-                                        .HasColumnName("CompletedByEmail");
-
-                                    b2.Property<string>("UserName")
-                                        .IsRequired()
-                                        .HasMaxLength(256)
-                                        .HasColumnType("nvarchar(256)")
-                                        .HasColumnName("CompletedByUserName");
-
-                                    b2.HasKey("AuditRecordAuditTrialId");
-
-                                    b2.ToTable("AuditTrail");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("AuditRecordAuditTrialId");
-                                });
-
-                            b1.Navigation("CompletedBy")
-                                .IsRequired();
-                        });
 
                     b.Navigation("Record")
                         .IsRequired();

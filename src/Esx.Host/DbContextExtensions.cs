@@ -2,7 +2,6 @@
 
 using Esx.Domain.AuditTrailEntity;
 using Esx.Integration.CarRenal;
-using Esx.Integration.TypeConfiguration;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -21,11 +20,11 @@ public static class DbContextExtensions
             return new ValueConverter<ICollection<ChangeInfo>, string>(changes => JsonSerializer.Serialize(changes, jsonSerializerOptions),
                 json => JsonSerializer.Deserialize<List<ChangeInfo>>(json, jsonSerializerOptions) ?? new List<ChangeInfo>());
         });
-        
+
         services.AddSingleton(
             new ValueComparer<ICollection<ChangeInfo>>(
             (
-                ICollection<ChangeInfo>? l, 
+                ICollection<ChangeInfo>? l,
                 ICollection<ChangeInfo>? r
             ) => Enumerable.SequenceEqual(l ?? Array.Empty<ChangeInfo>(), r ?? Array.Empty<ChangeInfo>()),
 

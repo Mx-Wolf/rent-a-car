@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-
-using Esx.Domain.AuditTrailEntity;
+﻿using Esx.Domain.AuditTrailEntity;
 using Esx.Integration.TypeConfiguration;
 
 using Microsoft.EntityFrameworkCore;

@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-
-using Esx.Domain.AuditTrailEntity;
+﻿using Esx.Domain.AuditTrailEntity;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -9,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Esx.Integration.TypeConfiguration;
 
-public class AuditTrailTypeConfiguration : IEntityTypeConfiguration<AuditTrial>
+public class AuditTrailTypeConfiguration : IEntityTypeConfiguration<AuditTrail>
 {
     private readonly ValueConverter<ICollection<ChangeInfo>, string> converter;
     private readonly ValueComparer<ICollection<ChangeInfo>> comparer;
@@ -22,7 +20,7 @@ public class AuditTrailTypeConfiguration : IEntityTypeConfiguration<AuditTrial>
         this.comparer = comparer;
     }
 
-    public void Configure(EntityTypeBuilder<AuditTrial> builder)
+    public void Configure(EntityTypeBuilder<AuditTrail> builder)
     {
         builder.ToTable("AuditTrail");
         builder.HasKey(e => e.Id);
@@ -72,6 +70,6 @@ public class AuditTrailTypeConfiguration : IEntityTypeConfiguration<AuditTrial>
                 )
                 .IsRequired();
         });
-       
+
     }
 }

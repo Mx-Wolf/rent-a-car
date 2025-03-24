@@ -9,7 +9,7 @@ public class ReservationRequestHandler : IReservationRequestHandler
 {
     private readonly IEntityRepository<Reservation, ReservationId> reservations;
     private readonly IEntityRepository<Customer, CustomerId> customers;
-    private readonly IEntityRepository<AuditTrial, AuditTrialId> auditTrials;
+    private readonly IEntityRepository<Domain.AuditTrailEntity.AuditTrail, AuditTrialId> auditTrials;
     private readonly IEntityRepository<AuditTrail<DocumentExtra>, AuditTrialId> documentTrail;
     private readonly IUnitOfWork unitOfWork;
 
@@ -17,7 +17,7 @@ public class ReservationRequestHandler : IReservationRequestHandler
         IEntityRepository<Reservation, ReservationId> reservations,
         IEntityRepository<Customer, CustomerId> customers,
         IUnitOfWork unitOfWork,
-        IEntityRepository<AuditTrial, AuditTrialId> auditTrials,
+        IEntityRepository<Domain.AuditTrailEntity.AuditTrail, AuditTrialId> auditTrials,
         IEntityRepository<AuditTrail<DocumentExtra>, AuditTrialId> documentTrail)
     {
         this.reservations = reservations;
@@ -48,15 +48,15 @@ public class ReservationRequestHandler : IReservationRequestHandler
 
         await unitOfWork.SaveChangesAsync();
 
-        var audit = new AuditTrial
+        var audit = new Domain.AuditTrailEntity.AuditTrail
         {
             Record = new AuditRecord
             {
                 Category = "Test1",
                 Changes = [new ChangeInfo("test action", "test field", "42", "-")],
-                CompletedBy= new UserInfo("mr x", "mrx@example.com"),
+                CompletedBy = new UserInfo("mr x", "mrx@example.com"),
                 DateCompleted = DateTime.UtcNow,
-                ObjectId =  42,
+                ObjectId = 42,
                 ObjectName = "foo",
             }
         };
@@ -64,7 +64,7 @@ public class ReservationRequestHandler : IReservationRequestHandler
 
         var docTrailRecord = new AuditTrail<DocumentExtra>
         {
-            Extra = new DocumentExtra { Document=73 },
+            Extra = new DocumentExtra { Document = 73 },
             Record = new AuditRecord
             {
                 Category = "Test1",
