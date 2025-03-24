@@ -1,15 +1,35 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Esx.Integration.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialIdea : Migration
+    public partial class WithExtrTrial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "AuditTrail",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Record_Category = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Record_ObjectId = table.Column<int>(type: "int", nullable: false),
+                    Record_ObjectName = table.Column<string>(type: "nvarchar(max)", maxLength: 2147483647, nullable: false),
+                    CompletedByUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    CompletedByEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    Record_DateCompleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Record_Changes = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AuditTrail", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Car",
                 columns: table => new
@@ -44,6 +64,26 @@ namespace Esx.Integration.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DocumentAuditTrail",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Record_Category = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Record_ObjectId = table.Column<int>(type: "int", nullable: false),
+                    Record_ObjectName = table.Column<string>(type: "nvarchar(max)", maxLength: 2147483647, nullable: false),
+                    CompletedByUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    CompletedByEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    Record_DateCompleted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Record_Changes = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DocumentId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DocumentAuditTrail", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Reservation",
                 columns: table => new
                 {
@@ -75,7 +115,13 @@ namespace Esx.Integration.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AuditTrail");
+
+            migrationBuilder.DropTable(
                 name: "Car");
+
+            migrationBuilder.DropTable(
+                name: "DocumentAuditTrail");
 
             migrationBuilder.DropTable(
                 name: "Reservation");

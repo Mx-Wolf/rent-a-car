@@ -1,4 +1,10 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 using Esx.Domain.AuditTrailEntity;
 
@@ -8,13 +14,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Esx.Integration.TypeConfiguration;
-
-public class AuditTrailTypeConfiguration : IEntityTypeConfiguration<AuditTrial>
+public class AuditTrailDocumentExtraTypeConfiguration : IEntityTypeConfiguration<AuditTrail<DocumentExtra>>
 {
     private readonly ValueConverter<ICollection<ChangeInfo>, string> converter;
     private readonly ValueComparer<ICollection<ChangeInfo>> comparer;
 
-    public AuditTrailTypeConfiguration(
+    public AuditTrailDocumentExtraTypeConfiguration(
         ValueConverter<ICollection<ChangeInfo>, string> converter,
         ValueComparer<ICollection<ChangeInfo>> comparer)
     {
@@ -22,19 +27,22 @@ public class AuditTrailTypeConfiguration : IEntityTypeConfiguration<AuditTrial>
         this.comparer = comparer;
     }
 
-    public void Configure(EntityTypeBuilder<AuditTrial> builder)
+    public void Configure(EntityTypeBuilder<AuditTrail<DocumentExtra>> builder)
     {
-        builder.ToTable("AuditTrail");
-        builder.HasKey(e => e.Id);
+        var b = builder;
 
-        builder.Property(e => e.Id)
+        b.ToTable("DocumentAuditTrail");
+        b.HasKey(e => e.Id);
+
+        b.Property(e => e.Id)
             .HasConversion(
               id => id.Value,
               value => new AuditTrialId(value)
             )
             .ValueGeneratedOnAdd()
             .IsRequired();
-        builder.OwnsOne(e => e.Record, pb =>
+
+        b.OwnsOne(e => e.Record, pb =>
         {
             pb.Property(e => e.Category)
            .HasMaxLength(128)
@@ -72,6 +80,13 @@ public class AuditTrailTypeConfiguration : IEntityTypeConfiguration<AuditTrial>
                 )
                 .IsRequired();
         });
-       
+
+        b.OwnsOne(e => e.Extra, pb =>
+        {
+            pb.Property(p => p.Document)
+            .HasColumnName("DocumentId");
+        });
+
+
     }
 }
