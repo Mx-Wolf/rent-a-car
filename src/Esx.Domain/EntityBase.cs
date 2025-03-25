@@ -1,5 +1,7 @@
 ﻿namespace Esx.Domain;
-public abstract class EntityBase<TEntityId> where TEntityId
+public abstract class EntityBase { }
+
+public abstract class EntityBase<TEntityId>: EntityBase where TEntityId
     : struct,
     IEquatable<TEntityId>,
     IComparable<TEntityId>,

@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 
 using Esx.Domain.AuditTrailEntity;
+using Esx.Integration.Audit;
 using Esx.Integration.CarRenal;
 
 using Microsoft.EntityFrameworkCore;
@@ -30,9 +31,12 @@ public static class DbContextExtensions
 
             (ICollection<ChangeInfo> o) => o.Aggregate(0, (a, b) => a ^ b.GetHashCode())));
 
-        services.AddDbContext<CarRentalDbContext>((o) =>
+        services.AddDbContext<CarRentalDbContext>((sp, o) =>
         {
             o.UseSqlServer(configuration.GetConnectionString("CarRentalDb"));
+            o.AddInterceptors(
+                sp.GetRequiredService<AuditTrailInterceptor>()
+                );
         });
         return services;
     }
