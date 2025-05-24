@@ -1,4 +1,4 @@
-﻿namespace Esx.Domain;
+﻿namespace Esx.Domain.Entities;
 
 public abstract class EntityBase<TEntityIdBase> where TEntityIdBase : struct
 {

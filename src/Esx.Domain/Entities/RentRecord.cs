@@ -1,4 +1,4 @@
-﻿namespace Esx.Domain;
+﻿namespace Esx.Domain.Entities;
 
 public class RentRecord: EntityBase<RentRecordId> 
 { 

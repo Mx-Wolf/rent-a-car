@@ -10,4 +10,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Esx.Application\Esx.Application.csproj" />
+  </ItemGroup>
+
 </Project>

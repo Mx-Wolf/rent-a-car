@@ -4,17 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Esx.Application.Reserviations;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace Esx.Controllers;
 [ApiController]
 [Route("[controller]")]
-public class ReservationsController
+public class ReservationsController(IReservationService reservationService)
 {
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> Get(CancellationToken cancellationToken)
     {
-        await Task.CompletedTask;
-        return new OkObjectResult(new { status = "Reservations OK" });
+        var data = await reservationService.List(cancellationToken);
+        return new OkObjectResult(data);
     }
 }

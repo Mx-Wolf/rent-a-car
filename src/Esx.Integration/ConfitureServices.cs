@@ -1,4 +1,6 @@
-﻿using Esx.Integration.Seeding;
+﻿using Esx.Domain.Repositories;
+using Esx.Integration.Repositories;
+using Esx.Integration.Seeding;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +23,7 @@ public static class ConfitureServices
                 configuration["seeding"] ?? throw new InvalidDataException()));
         });
         services.AddHostedService<SeedingService>();
+        services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
         return services;
     }
 }

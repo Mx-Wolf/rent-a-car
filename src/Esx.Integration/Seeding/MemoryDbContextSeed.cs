@@ -4,7 +4,7 @@ using System.Globalization;
 using CsvHelper;
 using CsvHelper.Configuration;
 
-using Esx.Domain;
+using Esx.Domain.Entities;
 
 using Microsoft.EntityFrameworkCore;
 
