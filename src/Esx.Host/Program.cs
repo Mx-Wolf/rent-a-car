@@ -1,4 +1,5 @@
 using Esx.Controllers;
+using Esx.Integration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,10 @@ builder.Services.AddOpenApi();
 builder.Services.AddMvc()
     .AddApplicationPart(ControllersAssembly.Reference)
     .AddControllersAsServices();
+
+builder.Services.AddIntegrationServices(
+    builder.Environment.ContentRootPath,
+    builder.Configuration);
 
 var app = builder.Build();
 

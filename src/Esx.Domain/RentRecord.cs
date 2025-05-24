@@ -16,7 +16,7 @@ public class RentRecord: EntityBase<RentRecordId>
     public string? DropoffLocation { get; set; }
     public string? AdditionalServices { get; set; }
     public bool? IsRoadReady { get; set; }
-    public string? TireConcition { get; set; }
+    public string? TireCondition { get; set; }
     public string? Cleanliness { get; set; }
     public string? PickupDamages { get; set; }
     public int? PickupMileage { get; set; }

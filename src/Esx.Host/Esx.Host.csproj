@@ -12,6 +12,17 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Esx.Controllers\Esx.Controllers.csproj" />
+    <ProjectReference Include="..\Esx.Integration\Esx.Integration.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Seeding\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Seeding\RentRecord.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
