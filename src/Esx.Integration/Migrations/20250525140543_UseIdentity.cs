@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Esx.Integration.Migrations
 {
     /// <inheritdoc />
-    public partial class ExcelLikeWideTable : Migration
+    public partial class UseIdentity : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,7 +19,8 @@ namespace Esx.Integration.Migrations
                 schema: "cars",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     DriverName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DriversLicense = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateBirth = table.Column<DateTime>(type: "datetime2", nullable: true),

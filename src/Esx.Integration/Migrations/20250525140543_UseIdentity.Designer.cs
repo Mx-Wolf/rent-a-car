@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Esx.Integration.Migrations
 {
     [DbContext(typeof(MemoryDbContext))]
-    [Migration("20250525132827_ExcelLikeWideTable")]
-    partial class ExcelLikeWideTable
+    [Migration("20250525140543_UseIdentity")]
+    partial class UseIdentity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,7 +29,10 @@ namespace Esx.Integration.Migrations
             modelBuilder.Entity("Esx.Domain.Entities.RentRecord", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal?>("AdditionalFees")
                         .HasPrecision(15, 2)

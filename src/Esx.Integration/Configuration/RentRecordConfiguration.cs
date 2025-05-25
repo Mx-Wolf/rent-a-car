@@ -13,8 +13,9 @@ internal class RentRecordConfiguration : IEntityTypeConfiguration<RentRecord>
         builder.Property(x => x.Id)
             .HasConversion(
             a => a.Value,
-            v => new RentRecordId(v));
-        builder.Property(x => x.Id).ValueGeneratedOnAdd();
+            v => new RentRecordId(v))
+            .ValueGeneratedOnAdd()
+            .UseIdentityColumn();
         builder.Property(x => x.AdditionalFees)
             .IsMoney();
         builder.Property(x => x.TotalCharges)

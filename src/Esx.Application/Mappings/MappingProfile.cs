@@ -9,5 +9,6 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         CreateMap<RentRecord, Reservation>();
+        CreateMap<RentRecordId, int>().ConvertUsing(e => e.Value);
     }
 }

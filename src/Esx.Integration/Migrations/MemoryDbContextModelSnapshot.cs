@@ -26,7 +26,10 @@ namespace Esx.Integration.Migrations
             modelBuilder.Entity("Esx.Domain.Entities.RentRecord", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal?>("AdditionalFees")
                         .HasPrecision(15, 2)
