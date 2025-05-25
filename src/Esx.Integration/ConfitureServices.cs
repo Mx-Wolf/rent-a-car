@@ -14,15 +14,23 @@ public static class ConfitureServices
         string contentRoot,
         IConfiguration configuration)
     {
-        services.AddDbContext<MemoryDbContext>(options => {
-            options.UseInMemoryDatabase("Demo");
+        services.AddDbContext<MemoryDbContext>((sp,options) => {
+            var connectionString = sp
+            .GetRequiredService<IConfiguration>()
+            .GetConnectionString("Memory");
+            options.UseSqlServer(connectionString, s =>
+            {
+                s.UseQuerySplittingBehavior (QuerySplittingBehavior.SplitQuery);
+            });
             options.EnableDetailedErrors(true);
             options.EnableSensitiveDataLogging(true);
             options.UseAsyncSeeding(MemoryDbContextSeed.Create(
                 contentRoot,
                 configuration["seeding"] ?? throw new InvalidDataException()));
+            options.UseSeeding(MemoryDbContextSeed.CreateSeeder(
+                contentRoot,
+                configuration["seeding"] ?? throw new InvalidDataException()));
         });
-        services.AddHostedService<SeedingService>();
         services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
         return services;
     }

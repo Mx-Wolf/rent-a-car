@@ -12,13 +12,27 @@ namespace Esx.Integration.Seeding;
 public  class MemoryDbContextSeed(string contentRootPath, string seedingConfig)
 {
     public static Func<DbContext, bool, CancellationToken, Task> Create(string contentRootPath, string seedingConfig)
-        => new MemoryDbContextSeed(contentRootPath, seedingConfig).SeedDemoData;
-    public async Task SeedDemoData(DbContext dbContext, bool _, CancellationToken cancellationToken)
+        => new MemoryDbContextSeed(contentRootPath, seedingConfig).SeedDemoDataAsync;
+    public static Action<DbContext, bool> CreateSeeder(string contentRootPath, string seedingConfig)
+        => new MemoryDbContextSeed(contentRootPath, seedingConfig).SeedingDemoData;
+    public async Task SeedDemoDataAsync(DbContext dbContext, bool _, CancellationToken cancellationToken)
     {
-        dbContext.AddRange(ReadCsvFile<RentRecord>());
+        var items = ReadCsvFile<RentRecord>();
+        var ids = items.Select(i=>i.Id.Value).ToList();
+        var known = await dbContext.Set<RentRecord>().Where(i => ids.Contains(i.Id)).ToListAsync();
+        foreach(var item in items)
+        {
+            if (!known.Any(k=>k.Id==item.Id))
+            {
+                dbContext.Add(item);
+            }
+        }
         await dbContext.SaveChangesAsync(cancellationToken);
     }
-
+    public void SeedingDemoData(DbContext dbContext, bool flag)
+    {
+        SeedDemoDataAsync(dbContext, flag, CancellationToken.None).Wait();
+    }
 
     private T[] ReadCsvFile<T>()
     {

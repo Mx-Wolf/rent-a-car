@@ -7,6 +7,7 @@ public class MemoryDbContext
 {
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.HasDefaultSchema("cars");
         modelBuilder.ApplyConfigurationsFromAssembly(IntegrationAssembley.Reference);
     }
 }

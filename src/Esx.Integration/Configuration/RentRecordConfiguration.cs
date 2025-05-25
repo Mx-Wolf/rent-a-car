@@ -14,5 +14,16 @@ internal class RentRecordConfiguration : IEntityTypeConfiguration<RentRecord>
             .HasConversion(
             a => a.Value,
             v => new RentRecordId(v));
+        builder.Property(x => x.Id).ValueGeneratedOnAdd();
+        builder.Property(x => x.AdditionalFees)
+            .IsMoney();
+        builder.Property(x => x.TotalCharges)
+            .IsMoney();
     }
+}
+
+public static class PropertyConfigureExtensions
+{
+    public static PropertyBuilder<T> IsMoney<T>(this PropertyBuilder<T> builder)
+        => builder.HasPrecision(15, 2);
 }
