@@ -1,0 +1,33 @@
+{
+	"info": {
+		"_postman_id": "1211411b-0f27-4129-8f6c-eda73693c5af",
+		"name": "DDD vs Entity Framework, Aggregates, Events, Anemic, CQRS",
+		"description": "Discusses solution template dedicated to DDD and compare it to capabilities approach. what is it that so domain'ness about having .Domain, .Application, .Integration, .WebUI. Where is direct indication that clearly show what the csproj theme",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17425135"
+	},
+	"item": [
+		{
+			"name": "Reservations",
+			"item": [
+				{
+					"name": "list reservations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/reservations",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reservations"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
