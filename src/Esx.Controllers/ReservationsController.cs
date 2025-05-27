@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using AutoMapper;
+﻿using AutoMapper;
 
 using Esx.Application.Reservations;
 using Esx.Controllers.Bodies;
@@ -12,6 +6,7 @@ using Esx.Controllers.Bodies;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Esx.Controllers;
+
 [ApiController]
 [Route("[controller]")]
 public class ReservationsController(IMapper mapper)
@@ -45,7 +40,6 @@ public class ReservationsController(IMapper mapper)
         [FromBody] Reservation body,
         CancellationToken cancellationToken)
     {
-        await Task.CompletedTask;
         var command = mapper.Map<Domain.Dto.Reservation>((id, body));
         await reservationService.UpdateAsync(command, cancellationToken);
         return new RedirectToActionResult(nameof(Get),"reservations",null,false);

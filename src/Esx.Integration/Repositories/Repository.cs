@@ -22,4 +22,15 @@ public class Repository <T, TK>(MemoryDbContext db) : IRepository<T, TK> where T
         return value ?? throw new InvalidOperationException();
     }
 
+    public async Task<T?> FindAsync(TK id, CancellationToken cancellationToken)
+    {
+        return await db.Set<T>()
+            .Where(e => e.Id.Equals(id))
+            .FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public void Add(T value)
+    {
+        db.Add(value);
+    }
 }

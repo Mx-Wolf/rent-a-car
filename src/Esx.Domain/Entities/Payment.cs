@@ -1,6 +1,5 @@
 ﻿namespace Esx.Domain.Entities;
 
-public record PaymentValue(decimal TotalCharges, decimal AdditionalFees);
 
 public record PaymentConfirmationEvent(decimal TotalCharges, decimal AdditionalFees) : DomainEventBase;
 public class Payment : EntityBase<RentRecordId>, IDomainEventPublisher
@@ -11,7 +10,7 @@ public class Payment : EntityBase<RentRecordId>, IDomainEventPublisher
 
     private Payment() { }
 
-    public Payment(PaymentValue value)
+    public Payment(Esx.Domain.Dto.Payment value)
     {
         PaymentConfirmation = true;
         (AdditionalFees,TotalCharges) = (value.AdditionalFees, value.TotalCharges);
