@@ -11,11 +11,11 @@ public class UpdateReservationService(
     IUnitOfWork unitOfWork,
     IMapper mapper): IUpdateReservationService
 {
-    public async Task<Reservation> UpdateAsync(Reservation reservation, CancellationToken cancellationToken)
+    public async Task<Esx.Domain.Dto.Reservation> UpdateAsync(Esx.Domain.Dto.Reservation reservation, CancellationToken cancellationToken)
     {
         var existing = await repository.GetAsync((RentRecordId)reservation.Id, cancellationToken);
         existing.PickupLocation = reservation.PickupLocation;
         await unitOfWork.SaveChangesAsync(cancellationToken);
-        return mapper.Map<Reservation>(existing);
+        return mapper.Map<Esx.Domain.Dto.Reservation>(existing);
     }
 }

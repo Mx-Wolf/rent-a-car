@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Esx.Integration.Migrations
 {
     /// <inheritdoc />
-    public partial class UseIdentity : Migration
+    public partial class ColumnNameing : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,7 +21,7 @@ namespace Esx.Integration.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DriverName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DriverName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DriversLicense = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
                     VehicleClass = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -49,8 +49,8 @@ namespace Esx.Integration.Migrations
                     UpsoldServices = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TotalCharges = table.Column<decimal>(type: "decimal(15,2)", precision: 15, scale: 2, nullable: true),
                     AdditionalFees = table.Column<decimal>(type: "decimal(15,2)", precision: 15, scale: 2, nullable: true),
-                    PameymentConfirmation = table.Column<bool>(type: "bit", nullable: true),
-                    CustomerExpirience = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PaymentConfirmation = table.Column<bool>(type: "bit", nullable: false),
+                    CustomerExperience = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ServiceImprovementOpportunities = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>

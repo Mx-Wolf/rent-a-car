@@ -1,7 +1,8 @@
 using Esx.Controllers;
-using Esx.Host;
 
-internal class Program
+namespace Esx.Host;
+
+internal static class Program
 {
     private static void Main(string[] args)
     {

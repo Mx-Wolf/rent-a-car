@@ -23,6 +23,36 @@ namespace Esx.Integration.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Esx.Domain.Entities.Payment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("AdditionalFees")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasPrecision(15, 2)
+                        .HasColumnType("decimal(15,2)")
+                        .HasColumnName("AdditionalFees");
+
+                    b.Property<bool>("PaymentConfirmation")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("bit")
+                        .HasColumnName("PaymentConfirmation");
+
+                    b.Property<decimal>("TotalCharges")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasPrecision(15, 2)
+                        .HasColumnType("decimal(15,2)")
+                        .HasColumnName("TotalCharges");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RentRecord", "cars");
+                });
+
             modelBuilder.Entity("Esx.Domain.Entities.RentRecord", b =>
                 {
                     b.Property<int>("Id")
@@ -32,8 +62,10 @@ namespace Esx.Integration.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal?>("AdditionalFees")
+                        .ValueGeneratedOnUpdateSometimes()
                         .HasPrecision(15, 2)
-                        .HasColumnType("decimal(15,2)");
+                        .HasColumnType("decimal(15,2)")
+                        .HasColumnName("AdditionalFees");
 
                     b.Property<string>("AdditionalServices")
                         .HasColumnType("nvarchar(max)");
@@ -53,7 +85,7 @@ namespace Esx.Integration.Migrations
                     b.Property<string>("Cleanliness")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CustomerExpirience")
+                    b.Property<string>("CustomerExperience")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("DateBirth")
@@ -63,6 +95,7 @@ namespace Esx.Integration.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DriverName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DriversLicense")
@@ -86,8 +119,10 @@ namespace Esx.Integration.Migrations
                     b.Property<bool?>("IsRoadReady")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("PameymentConfirmation")
-                        .HasColumnType("bit");
+                    b.Property<bool>("PaymentConfirmation")
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("bit")
+                        .HasColumnName("PaymentConfirmation");
 
                     b.Property<string>("PickupDamages")
                         .HasColumnType("nvarchar(max)");
@@ -96,7 +131,9 @@ namespace Esx.Integration.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PickupLocation")
-                        .HasColumnType("nvarchar(max)");
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("PickupLocation");
 
                     b.Property<int?>("PickupMileage")
                         .HasColumnType("int");
@@ -117,8 +154,10 @@ namespace Esx.Integration.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("TotalCharges")
+                        .ValueGeneratedOnUpdateSometimes()
                         .HasPrecision(15, 2)
-                        .HasColumnType("decimal(15,2)");
+                        .HasColumnType("decimal(15,2)")
+                        .HasColumnName("TotalCharges");
 
                     b.Property<string>("UpsoldServices")
                         .HasColumnType("nvarchar(max)");
@@ -129,6 +168,43 @@ namespace Esx.Integration.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("RentRecord", "cars");
+                });
+
+            modelBuilder.Entity("Esx.Domain.Entities.Reservation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("PickupLocation")
+                        .IsRequired()
+                        .ValueGeneratedOnUpdateSometimes()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("PickupLocation");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RentRecord", "cars");
+                });
+
+            modelBuilder.Entity("Esx.Domain.Entities.Payment", b =>
+                {
+                    b.HasOne("Esx.Domain.Entities.RentRecord", null)
+                        .WithOne()
+                        .HasForeignKey("Esx.Domain.Entities.Payment", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Esx.Domain.Entities.Reservation", b =>
+                {
+                    b.HasOne("Esx.Domain.Entities.RentRecord", null)
+                        .WithOne()
+                        .HasForeignKey("Esx.Domain.Entities.Reservation", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

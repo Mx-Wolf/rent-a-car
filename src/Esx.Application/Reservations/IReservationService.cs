@@ -1,6 +1,6 @@
 ﻿using Esx.Domain.Dto;
 
-namespace Esx.Application.Reserviations;
+namespace Esx.Application.Reservations;
 
 public interface IReservationService
 {

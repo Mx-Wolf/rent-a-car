@@ -2,7 +2,7 @@
 
 public class RentRecord: EntityBase<RentRecordId> 
 { 
-    public string? DriverName { get; set; }
+    public required string DriverName { get; set; }
     public string? DriversLicense { get; set; }
     public DateTime? DateBirth { get; set; }
     public string? VehicleClass { get; set; }
@@ -30,8 +30,10 @@ public class RentRecord: EntityBase<RentRecordId>
     public string? UpsoldServices { get; set; }
     public decimal? TotalCharges { get; set; }
     public decimal? AdditionalFees { get; set; }
-    public bool? PameymentConfirmation { get; set; }
-    public string? CustomerExpirience { get; set; }
+    public bool PaymentConfirmation { get; set; }
+    public string? CustomerExperience { get; set; }
     public string? ServiceImprovementOpportunities { get; set; }
+
+
 
 }

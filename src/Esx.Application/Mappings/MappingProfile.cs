@@ -8,7 +8,7 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<RentRecord, Reservation>();
+        CreateMap<RentRecord, Esx.Domain.Dto.Reservation>();
         CreateMap<RentRecordId, int>().ConvertUsing(e => e.Value);
     }
 }

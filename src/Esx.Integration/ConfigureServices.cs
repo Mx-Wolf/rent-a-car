@@ -18,10 +18,9 @@ public static class ConfigureServices
             var connectionString = sp
             .GetRequiredService<IConfiguration>()
             .GetConnectionString("Memory");
-            options.UseSqlServer(connectionString, s =>
-            {
-                s.UseQuerySplittingBehavior (QuerySplittingBehavior.SplitQuery);
-            });
+            options.UseSqlServer(
+                    connectionString, 
+                    s => s.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery));
             options.EnableDetailedErrors(true);
             options.EnableSensitiveDataLogging(true);
             options.UseAsyncSeeding(MemoryDbContextSeed.Create(

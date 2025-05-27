@@ -15,21 +15,24 @@ public  class MemoryDbContextSeed(string contentRootPath, string seedingConfig)
         => new MemoryDbContextSeed(contentRootPath, seedingConfig).SeedDemoDataAsync;
     public static Action<DbContext, bool> CreateSeeder(string contentRootPath, string seedingConfig)
         => new MemoryDbContextSeed(contentRootPath, seedingConfig).SeedingDemoData;
-    public async Task SeedDemoDataAsync(DbContext dbContext, bool _, CancellationToken cancellationToken)
+
+    private async Task SeedDemoDataAsync(DbContext dbContext, bool _, CancellationToken cancellationToken)
     {
         var items = ReadCsvFile<RentRecord>();
         var ids = items.Select(i=>i.Id.Value).ToList();
-        var known = await dbContext.Set<RentRecord>().Where(i => ids.Contains(i.Id)).ToListAsync();
+        var known = await dbContext.Set<RentRecord>().Where(i => ids.Contains(i.Id)).ToListAsync(cancellationToken: cancellationToken);
         foreach(var item in items)
         {
-            if (!known.Any(k=>k.Id==item.Id))
+            if (known.All(k => k.Id != item.Id))
             {
+                Console.WriteLine(item.Id);
                 dbContext.Add(item);
             }
         }
         await dbContext.SaveChangesAsync(cancellationToken);
     }
-    public void SeedingDemoData(DbContext dbContext, bool flag)
+
+    private void SeedingDemoData(DbContext dbContext, bool flag)
     {
         SeedDemoDataAsync(dbContext, flag, CancellationToken.None).Wait();
     }

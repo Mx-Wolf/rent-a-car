@@ -5,10 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Esx.Integration.Configuration;
-internal class RentRecordConfiguration : IEntityTypeConfiguration<RentRecord>
+
+internal class RentRecord__Configuration : IEntityTypeConfiguration<RentRecord>
 {
     public void Configure(EntityTypeBuilder<RentRecord> builder)
     {
+        builder.ToTable("RentRecord");
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id)
             .HasConversion(
@@ -20,11 +22,18 @@ internal class RentRecordConfiguration : IEntityTypeConfiguration<RentRecord>
             .IsMoney();
         builder.Property(x => x.TotalCharges)
             .IsMoney();
-    }
-}
 
-public static class PropertyConfigureExtensions
-{
-    public static PropertyBuilder<T> IsMoney<T>(this PropertyBuilder<T> builder)
-        => builder.HasPrecision(15, 2);
+        builder.Property(e => e.PickupLocation)
+            .HasColumnName(nameof(RentRecord.PickupLocation));
+
+
+
+        builder.Property(x => x.AdditionalFees)
+            .HasColumnName(nameof(RentRecord.AdditionalFees));
+        builder.Property(x => x.PaymentConfirmation)
+            .HasColumnName(nameof(RentRecord.PaymentConfirmation));
+        builder.Property(x => x.TotalCharges)
+            .HasColumnName(nameof(RentRecord.TotalCharges));
+
+    }
 }
