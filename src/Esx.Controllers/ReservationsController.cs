@@ -4,19 +4,38 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using AutoMapper;
+
+using Esx.Application.Reservations;
 using Esx.Application.Reserviations;
+using Esx.Controllers.Bodies;
 
 using Microsoft.AspNetCore.Mvc;
 
 namespace Esx.Controllers;
 [ApiController]
 [Route("[controller]")]
-public class ReservationsController(IReservationService reservationService)
+public class ReservationsController(IMapper mapper)
 {
     [HttpGet]
-    public async Task<IActionResult> Get(CancellationToken cancellationToken)
+    public async Task<IActionResult> Get(
+        [FromServices] IReservationService reservationService,
+        CancellationToken cancellationToken)
     {
         var data = await reservationService.List(cancellationToken);
         return new OkObjectResult(data);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Put(
+        [FromServices] IUpdateReservationService reservationService,
+        [FromRoute] int id, 
+        [FromBody] Reservation body,
+        CancellationToken cancellationToken)
+    {
+        await Task.CompletedTask;
+        var command = mapper.Map<Domain.Dto.Reservation>((id, body));
+        var result = await reservationService.UpdateAsync(command, cancellationToken);
+        return new OkObjectResult(result);
     }
 }

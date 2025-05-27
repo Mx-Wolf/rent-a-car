@@ -1,5 +1,11 @@
 # Demo for Domain Design
 
+Remember to upgrade EF tools
+
+```terminal
+dotnet tool update --global dotnet-ef
+```
+
 To run migrations:
 
 ```terminal

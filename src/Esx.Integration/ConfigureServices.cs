@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Esx.Integration;
-public static class ConfitureServices
+public static class ConfigureServices
 {
     public static IServiceCollection AddIntegrationServices(
         this IServiceCollection services,
@@ -31,7 +31,8 @@ public static class ConfitureServices
                 contentRoot,
                 configuration["seeding"] ?? throw new InvalidDataException()));
         });
-        services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
+        services.AddScoped(typeof(IRepository<,>), typeof(Repository<,>));
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         return services;
     }
 }

@@ -1,17 +1,17 @@
 ﻿using AutoMapper;
 
+using Esx.Application.Reserviations;
 using Esx.Domain.Dto;
 using Esx.Domain.Entities;
 using Esx.Domain.Repositories;
 
-namespace Esx.Application.Reserviations;
+namespace Esx.Application.Reservations;
 public class ReservationService(
-    IReadRepository<RentRecord> rentRecords,
+    IRepository<RentRecord,RentRecordId> rentRecords,
     IMapper mapper): IReservationService
 {
     public async Task<IEnumerable<Reservation>> List(CancellationToken cancellationToken)
     {
-        await Task.CompletedTask;
-        return [.. mapper.ProjectTo<Reservation>(rentRecords.GetAll())];
+        return await rentRecords.ProjectAsync(q => mapper.ProjectTo<Reservation>(q), cancellationToken);
     }
 }

@@ -6,8 +6,6 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddAutoMapper(ApplicationAssembly.Reference);
-        
         return services;
     }
 }
